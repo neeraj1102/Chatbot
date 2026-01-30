@@ -11,10 +11,17 @@ HEADERS = {
 
 @cl.on_message
 async def main(message: cl.Message):
+    system_prompt = """The chatbot will only respond to platform-relevant queries (orders, services, policies).
+Out-of-scope or unrelated questions will be politely declined with a guided redirection to supported topics.
+To avoid infinite loops:
+The AI will attempt clarification only once or twice
+If still unresolved, it will automatically suggest raising a support ticket
+No hallucinated or speculative responses; the AI responds only when confidence is above a defined threshold."""
     payload = {
         "model": "openai/o4-mini",
         "messages": [
-            {"role": "user", "content": message.content}
+            # {"role": "system", "content": system_prompt},
+            {"role": "user", "content": message.content} 
         ],
         "max_tokens": 256,
         "reasoning": {"enabled": True}
